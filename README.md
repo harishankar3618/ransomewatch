@@ -1,127 +1,55 @@
-# Signature-based Ransomware Detection Tool
+# YARA Scanner Tool
 
-## Overview
-This project is a **Signature-based Ransomware Detection Tool** designed to identify ransomware threats using custom **YARA rules**. By analyzing ransomware characteristics and behaviors, the tool provides an efficient way to detect known ransomware families, enhancing system security and reducing potential damage.
+A simple YARA Scanner Tool that allows you to scan files and folders for potential threats using YARA rules. This tool provides options to scan a single file or an entire folder, as well as view available YARA rules in the specified directory.
 
 ## Features
-- **YARA Rule Integration**: Detect ransomware through signature-based matching.
-- **File Scanning**: Analyze files and directories for potential ransomware patterns.
-- **Memory Dump Scanning**: Inspect system memory to identify active threats.
-- **Customizable Rules**: Extend detection capabilities by adding or modifying YARA rules.
-- **Lightweight and Fast**: Optimized for performance in both local and enterprise environments.
 
-## How It Works
-1. **YARA Rule Development**:
-   - Custom YARA rules were crafted by analyzing ransomware samples and identifying unique patterns, file structures, and behaviors.
-   
-2. **Detection Mechanism**:
-   - The tool scans files, memory, or system processes and matches them against predefined YARA rules.
-   - Alerts are generated when a match is found, enabling early threat detection.
-
-3. **Execution Workflow**:
-   - Input the file or directory path to scan.
-   - Load and apply YARA rules to the target.
-   - Display the results, including any matched ransomware signatures.
-
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-repo/ransomware-detection.git
-   cd ransomware-detection
-   ```
-
-2. Install dependencies:
-   ```bash
-   pip install yara-python
-   ```
-
-3. (Optional) Test YARA installation:
-   ```bash
-   python -m yara --version
-   ```
-
-## Usage
-1. **Run the Scanner**:
-   ```bash
-   python detect_ransomware.py --path <file_or_directory_path> --rules <yara_rules_file>
-   ```
-   Example:
-   ```bash
-   python detect_ransomware.py --path /path/to/scan --rules ransomware_rules.yar
-   ```
-
-2. **Add New YARA Rules**:
-   - Place new `.yar` files in the `rules/` directory.
-   - Ensure the syntax follows YARA conventions.
-
-3. **View Results**:
-   - Matched signatures will be displayed in the console or saved to a log file.
-
-## Directory Structure
-```
-ransomware-detection/
-│
-├── rules/
-│   ├── ransomware_rules.yar   # Predefined YARA rules for ransomware detection
-│   ├── custom_rules.yar       # Space for user-defined rules
-│
-├── src/
-│   ├── detect_ransomware.py   # Main tool script
-│   ├── utils.py               # Utility functions
-│
-├── logs/
-│   ├── scan_results.log       # Log of scan results
-│
-├── README.md                  # Project documentation
-├── requirements.txt           # Python dependencies
-```
-
-## Example YARA Rule
-```yara
-rule RansomwareExample
-{
-    meta:
-        description = "Detects Example Ransomware"
-        author = "Your Name"
-        date = "2025-01-07"
-
-    strings:
-        $ransom_ext = ".locked"
-        $ransom_note = "Your files have been encrypted!"
-        $suspicious_string = { 6D 61 6C 77 61 72 65 2D 70 61 74 74 65 72 6E }
-
-    condition:
-        any of them
-}
-```
+- **Scan a single file** for matches with YARA rules.
+- **Scan a folder** and its contents for potential threats.
+- **View available YARA rules** in the rules directory.
+- **Logging**: Logs the scan results and errors to a file (`yara_scanner.log`).
 
 ## Requirements
-- Python 3.7+
-- `yara-python` module
 
-Install requirements using:
+- **Python 3.x**: [Download Python 3.x](https://www.python.org/downloads/)
+- **YARA Python bindings** (`yara-python`): Used to load and apply YARA rules.
+
+You can install the required dependencies using the following command:
+
 ```bash
-pip install -r requirements.txt
+pip install yara-python
+```
+## Setup
+- Clone the repository:
+
+```bash
+git clone https://github.com/harishankar3618/signature-based-ransomeware-detection
+cd signature-based-ransomeware-detection
 ```
 
-## Limitations
-- **Known Threats Only**: This tool relies on YARA rules and may not detect unknown ransomware.
-- **False Positives**: Some benign files may match YARA rules due to similar patterns.
-- **Heuristic Analysis**: Not included; future updates may add heuristic-based detection.
+- To start the YARA Scanner Tool, simply run the script:
+```bash
+python main.py
+```
+## Usage
+After running the tool, you will be presented with the following options:
+- **Scan a single file**: Enter the path of a file to scan. The tool will check for matches with the YARA rules.
+- **Scan a folder**: Enter the path of a folder to scan. The tool will scan all files within the folder.
+- **Show available YARA rules**: View the available YARA rules in the rules directory.
+- **Exit**: Exit the YARA Scanner Tool.
 
-## Future Enhancements
-- Adding heuristic and behavioral analysis.
-- Integrating real-time monitoring capabilities.
-- Extending rule sets for broader detection coverage.
+## Customization
+- Rules Directory: The predefined YARA rules are located in the rules directory. You can add your own .yar or .yara rule files to this folder, and they will automatically be loaded by the tool.
+- Scan Multiple Files/Folders: Modify the script to add batch scanning or other advanced features.
+
 
 ## Contribution
-Contributions are welcome! If you have suggestions or want to improve YARA rules, feel free to create a pull request or open an issue.
+Feel free to fork this repository and create a pull request with improvements, bug fixes, or additional features. Contributions are welcome!
 
+## Contact
+For any issues or queries, feel free to open an issue in the GitHub repository or contact me directly at [harishankar3618@gmail.com].
 
----
+## Acknowledgments
+Special thanks to the YARA project and contributors for providing the powerful YARA rule engine used in this tool.
 
-### Author
-Developed by **Hari Shankar**, a cybersecurity enthusiast skilled in malware analysis and threat detection.  
-[https://linkedin.com/in/harishankar3618]linkdin
-[https://harishankar3618.github.io/]portfolio
 
