@@ -1,7 +1,6 @@
-# YARA Scanner Tool
+# Signature-based-ransomeware-detection-tool
 
-A simple YARA Scanner Tool that allows you to scan files and folders for potential threats using YARA rules. This tool provides options to scan a single file or an entire folder, as well as view available YARA rules in the specified directory.
-
+A simple and efficient **signature-based ransomware detection tool** built using YARA rules. This tool helps you detect ransomware and other malicious files by scanning them for known signatures. The tool uses predefined YARA rules to identify files or activities associated with ransomware threats.
 ## Features
 
 - **Scan a single file** for matches with YARA rules.
