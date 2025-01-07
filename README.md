@@ -117,11 +117,11 @@ pip install -r requirements.txt
 ## Contribution
 Contributions are welcome! If you have suggestions or want to improve YARA rules, feel free to create a pull request or open an issue.
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
 ### Author
-Developed by **[Your Name]**, a cybersecurity enthusiast skilled in malware analysis and threat detection.  
-[Your LinkedIn/GitHub/Portfolio link]
+Developed by **Hari Shankar**, a cybersecurity enthusiast skilled in malware analysis and threat detection.  
+[https://linkedin.com/in/harishankar3618]linkdin
+[https://harishankar3618.github.io/]portfolio
+
