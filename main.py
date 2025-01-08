@@ -1,7 +1,7 @@
 import os
 import logging
 from scanner import YaraScanner
-from email_alert import send_malware_alert, check_and_store_receipt_email, load_sender_credentials
+from email_alert import send_malware_alert, check_and_store_receipt_email
 
 # Configure logging
 logging.basicConfig(
@@ -24,13 +24,16 @@ def main():
     print("----------------------------------")
 
     # Load sender credentials
-    try:
-        sender_email, sender_password = load_sender_credentials()
+    '''try:
+
+        #sender_email, sender_password = load_sender_credentials()
+        sender_email = os.getenv('SENDER_EMAIL')
+        sender_password = os.getenv('SENDER_PASSWORD')
         logging.info("Sender credentials loaded successfully.")
     except Exception as e:
         logging.error(f"Failed to load sender credentials: {e}")
         print(f"Error: {e}")
-        return
+        return'''
 
     # Check and load receipt email
     receipt_email = check_and_store_receipt_email()
@@ -49,9 +52,11 @@ def main():
             print("3. Show available YARA rules")
             print("4. Exit")
             choice = input("Enter your choice (1/2/3/4): ").strip()
+            
 
             if choice == "1":
                 clear_screen()
+                logging.info(f"User selected option: File Scan")
                 print("FILE SCAN")
                 print("----------------------------------")
                 file_to_scan = input("Enter the path to the file to scan: ").strip()
@@ -65,7 +70,7 @@ def main():
                         for match in matches:
                             print(f"  - {match}")
                         logging.info(f"Matches found in file: {file_to_scan}")
-                        send_malware_alert(sender_email, sender_password, receipt_email, file_to_scan)
+                        send_malware_alert(receipt_email, file_to_scan)
                         logging.info(f"Malware alert email sent for file: {file_to_scan}")
                     else:
                         logging.info(f"No matches found in file: {file_to_scan}")
@@ -79,6 +84,7 @@ def main():
 
             elif choice == "2":
                 clear_screen()
+                logging.info(f"User selected option: Folder Scan")
                 print("FOLDER SCAN")
                 print("----------------------------------")
                 folder_to_scan = input("Enter the path to the folder to scan: ").strip()
@@ -96,9 +102,9 @@ def main():
                             print(f"{file_path}:")
                             for match in matches:
                                 print(f"  - {match}")
-                            all_files_detected.append(f"{file_path}: {', '.join(matches)}")
+                                all_files_detected.append(f"{file_path}: {match}")
                         logging.info(f"Matches found in folder: {folder_to_scan}")
-                        send_malware_alert(sender_email, sender_password, receipt_email, "\n".join(all_files_detected))
+                        send_malware_alert(receipt_email,all_files_detected)
                         logging.info(f"Malware alert email sent for folder scan.")
                     else:
                         logging.info(f"No matches found in folder: {folder_to_scan}")
@@ -109,6 +115,7 @@ def main():
 
             elif choice == "3":
                 clear_screen()
+                logging.info(f"User selected option: Show YARA rules")
                 print("YARA RULES")
                 print("----------------------------------")       
                 logging.info("Showing available YARA rules.")         
@@ -131,6 +138,7 @@ def main():
 
             elif choice == "4":
                 clear_screen()
+                logging.info(f"User selected option: exit")
                 print("Exiting the YARA Scanner Tool. Goodbye!")
                 logging.info("Exiting the YARA Scanner Tool.")
                 break
