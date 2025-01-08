@@ -1,6 +1,7 @@
 import os
 import logging
 from scanner import YaraScanner
+from email_alert import send_malware_alert, check_and_store_receipt_email, load_sender_credentials
 
 # Configure logging
 logging.basicConfig(
@@ -21,6 +22,19 @@ def main():
     logging.info(f"Starting the YARA Scanner Tool...")
     print("Welcome to the YARA Scanner Tool!")
     print("----------------------------------")
+
+    # Load sender credentials
+    try:
+        sender_email, sender_password = load_sender_credentials()
+        logging.info("Sender credentials loaded successfully.")
+    except Exception as e:
+        logging.error(f"Failed to load sender credentials: {e}")
+        print(f"Error: {e}")
+        return
+
+    # Check and load receipt email
+    receipt_email = check_and_store_receipt_email()
+    logging.info(f"Receipt email loaded: {receipt_email}")
 
     # Declare the hardcoded rules directory
     rules_directory = os.path.abspath("rules")  # Specify your rules folder here
@@ -51,6 +65,8 @@ def main():
                         for match in matches:
                             print(f"  - {match}")
                         logging.info(f"Matches found in file: {file_to_scan}")
+                        send_malware_alert(sender_email, sender_password, receipt_email, file_to_scan)
+                        logging.info(f"Malware alert email sent for file: {file_to_scan}")
                     else:
                         logging.info(f"No matches found in file: {file_to_scan}")
                 except FileNotFoundError as e:
@@ -75,18 +91,21 @@ def main():
                     results = scanner.scan_folder(folder_to_scan)
                     if results:
                         print("\nMatches found in the following files:")
+                        all_files_detected = []
                         for file_path, matches in results.items():
                             print(f"{file_path}:")
                             for match in matches:
                                 print(f"  - {match}")
+                            all_files_detected.append(f"{file_path}: {', '.join(matches)}")
                         logging.info(f"Matches found in folder: {folder_to_scan}")
+                        send_malware_alert(sender_email, sender_password, receipt_email, "\n".join(all_files_detected))
+                        logging.info(f"Malware alert email sent for folder scan.")
                     else:
                         logging.info(f"No matches found in folder: {folder_to_scan}")
                 except Exception as e:
                     logging.error(f"Error scanning folder {folder_to_scan}: {e}")
                 input("\nPress Enter to go back to the menu...")
                 clear_screen()
-
 
             elif choice == "3":
                 clear_screen()
