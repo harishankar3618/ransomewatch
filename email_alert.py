@@ -1,23 +1,17 @@
 import os
+import json
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-RECEIPT_EMAIL_FILE = "receipt_email.txt"
-SENDER_CREDENTIALS_FILE = "sender_credentials.txt"
 
-def load_sender_credentials():
-    """Load the sender email and password from the file"""
-    if os.path.exists(SENDER_CREDENTIALS_FILE):
-        with open(SENDER_CREDENTIALS_FILE, 'r') as f:
-            lines = f.readlines()
-            if len(lines) < 2:
-                raise ValueError("The sender credentials file is missing required data.")
-            sender_email = lines[0].strip()  # Sender email
-            sender_password = lines[1].strip()  # Sender password 
-            return sender_email, sender_password
-    else:
-        raise FileNotFoundError("Sender credentials file not found.")
+RECEIPT_EMAIL_FILE = "receipt_email.txt"
+
+with open('config.json') as config_file:
+    config = json.load(config_file)
+
+sender_email = config['SENDER_EMAIL']
+sender_password = config['SENDER_PASSWORD']
 
 def load_receipt_email():
     """Load the receipt email from the file"""
@@ -42,7 +36,7 @@ def check_and_store_receipt_email():
         print("Receipt email saved.")
     return receipt_email
 
-def send_malware_alert(sender_email,sender_password,receipt_email,malware_details):
+def send_malware_alert(receipt_email,malware_details):
     """Send an email alert for detected malware during the scan"""
     try:
         # Email subject and body
@@ -69,7 +63,8 @@ def send_malware_alert(sender_email,sender_password,receipt_email,malware_detail
 
     except Exception as e:
         print(f"Failed to send malware alert email: {e}")
-
-
+        
+#sender_email="ransomewatch@gmail.com"
+#sender_password = decrypt("koxs puos vzxg tyeu")
 
      
